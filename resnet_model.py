@@ -3,10 +3,6 @@ This model is adapted from the resnet-cifar10 repo
 """
 # From https://github.com/tensorflow/models/blob/master/resnet/resnet_model.py
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 from collections import namedtuple
 
 import tensorflow.compat.v1 as tf

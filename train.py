@@ -1,10 +1,6 @@
 """
 Trains a model, saving checkpoints and tensorboard summaries along the way.
 """
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 from datetime import datetime
 import json
 import shutil
