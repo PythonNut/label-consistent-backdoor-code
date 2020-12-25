@@ -2,7 +2,8 @@
 Implementation of data poisoning methods
 """
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 class DataPoisoningAttack:
     def __init__(self, trigger, target_class, *, random_seed=None, reduced_amplitude=None):

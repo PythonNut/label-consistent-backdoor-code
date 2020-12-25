@@ -10,7 +10,8 @@ import math
 import os
 
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 import resnet_model
 
@@ -69,7 +70,7 @@ class EvalHelper(object):
         self.poisoned_testing_handle = self.prepare_dataset_and_handle(datasets["poisoned_test"], sess)
         self.poisoned_no_target_testing_handle = self.prepare_dataset_and_handle(poisoned_no_target_test_dataset, sess)
 
-        self.global_step = tf.contrib.framework.get_or_create_global_step()
+        self.global_step = tf.train.get_or_create_global_step()
 
         # Setting up the Tensorboard and checkpoint outputs
         if not os.path.exists(self.model_dir):
@@ -85,7 +86,7 @@ class EvalHelper(object):
         images, labels = full_dataset
         images_placeholder = tf.placeholder(tf.float32, images.shape)
         labels_placeholder = tf.placeholder(tf.int64, labels.shape)
-        dataset = tf.contrib.data.Dataset.from_tensor_slices((images_placeholder, labels_placeholder))
+        dataset = tf.data.Dataset.from_tensor_slices((images_placeholder, labels_placeholder))
         dataset = dataset.shuffle(buffer_size=10000, seed=self.random_seed).repeat()
 
         if self.augment_dataset:

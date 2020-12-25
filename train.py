@@ -11,7 +11,8 @@ import shutil
 import os
 
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 from eval_helper import EvalHelper
 from resnet_model import ResNetModel, make_data_augmentation_fn
@@ -73,7 +74,7 @@ if len(poisoned_train_indices) > 0:
 def prepare_dataset(images, labels):
     images_placeholder = tf.placeholder(tf.float32, images.shape)
     labels_placeholder = tf.placeholder(tf.int64, labels.shape)
-    dataset = tf.contrib.data.Dataset.from_tensor_slices((images_placeholder, labels_placeholder))
+    dataset = tf.data.Dataset.from_tensor_slices((images_placeholder, labels_placeholder))
     dataset = dataset.shuffle(buffer_size=10000, seed=config['random_seed']).repeat()
 
     if config['augment_dataset']:
@@ -95,12 +96,12 @@ if len(poisoned_train_indices) > 0:
     poisoned_no_trigger_placeholder, _, poisoned_no_trigger_training_iterator = prepare_dataset(poisoned_no_trigger_train_images, poisoned_no_trigger_train_labels)
 
 iterator_handle = tf.placeholder(tf.string, shape=[])
-input_iterator = tf.contrib.data.Iterator.from_string_handle(iterator_handle,
+input_iterator = tf.data.Iterator.from_string_handle(iterator_handle,
                                                              clean_train_dataset_batched.output_types,
                                                              clean_train_dataset_batched.output_shapes)
 x_input, y_input = input_iterator.get_next()
 
-global_step = tf.contrib.framework.get_or_create_global_step()
+global_step = tf.train.get_or_create_global_step()
 
 # Choose model and set up optimizer
 model = ResNetModel(x_input, y_input, random_seed=config['random_seed'])

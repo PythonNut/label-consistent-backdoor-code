@@ -9,7 +9,8 @@ from __future__ import print_function
 
 from collections import namedtuple
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 HParams = namedtuple('HParams',
                      ['num_classes',
