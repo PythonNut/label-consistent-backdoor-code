@@ -11,5 +11,3 @@ cat fully_poisoned_training_datasets.tar.bz2.* > fully_poisoned_training_dataset
 rm fully_poisoned_training_datasets.tar.bz2.*
 tar -vxjf fully_poisoned_training_datasets.tar.bz2
 rm fully_poisoned_training_datasets.tar.bz2
-
-pip install -r requirements.txt --user
